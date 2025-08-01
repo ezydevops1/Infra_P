@@ -2,18 +2,18 @@ name: Commit Lint
 
 on:
   pull_request:
-    branches: [main, qa, dev] # Update based on your repo branches
+    branches: [main, qa, dev]  # Update with your actual branches
 
 jobs:
   lint-commits:
-    name: Validate PR commit messages
+    name: Validate Commit Messages
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout PR
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Check Conventional Commits
+      - name: Lint commit messages
         uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -21,12 +21,9 @@ jobs:
           types: |
             feat
             fix
-            docs
-            chore
-            refactor
-            style
-            test
           requireScope: false
+          validateSingleCommit: true
+
 
 
 
