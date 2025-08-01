@@ -2,39 +2,29 @@ name: CD
 
 on:
   push:
-    branches:
-      - dev
-      - qa
-      - prod
+    branches: [dev, qa, prod]
+  pull_request:
+    branches: [main]
+    branches: [dev, qa, prod]
 
 jobs:
-  deploy:
+  deploy-dev:
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Deploy to Development
+        run: echo "✅ Deploying to Dev Environment"
 
-      - name: Deploy to Environment
-        run: |
-          echo "Deploying to ${{ github.ref_name }} environment..."
-          # Simulated deploy command
-          if [[ "${{ github.ref_name }}" == "dev" ]]; then
-            echo "Deploying to Development server"
-            # ./deploy-dev.sh or npm run deploy-dev
-          elif [[ "${{ github.ref_name }}" == "qa" ]]; then
-            echo "Deploying to QA server"
-            # ./deploy-qa.sh or npm run deploy-qa
-          elif [[ "${{ github.ref_name }}" == "prod" ]]; then
-            echo "Deploying to Production server"
-            # ./deploy-prod.sh or npm run deploy-prod
-          if [[ "${{ github.ref_name }}" == "dev" ]]; then
-            echo "✅ Deploying to Dev"
-            # Add your dev deploy logic
-          elif [[ "${{ github.ref_name }}" == "qa" ]]; then
-            echo "✅ Deploying to QA"
-            # Add your QA deploy logic
-          elif [[ "${{ github.ref_name }}" == "prod" ]]; then
-            echo "✅ Deploying to Prod"
-            # Add your production deploy logic
+  deploy-qa:
+    if: github.ref == 'refs/heads/qa'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to QA
+        run: echo "🚀 Deploying to QA Environment"
 
+  deploy-prod:
+    if: github.ref == 'refs/heads/prod'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Production
+        run: echo "Deploying to Production Environment"
