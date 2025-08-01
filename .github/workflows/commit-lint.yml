@@ -1,20 +1,33 @@
-name: Commit Message Lint
+name: Commit Lint
 
 on:
   pull_request:
-    branches: [main, dev, qa, prod]
+    branches: [main, qa, dev] # Update based on your repo branches
 
 jobs:
-  commit-lint:
+  lint-commits:
+    name: Validate PR commit messages
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout PR
         uses: actions/checkout@v3
 
-      - name: Lint commit messages
-        uses: wagoid/commitlint-github-action@v5
+      - name: Check Conventional Commits
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          configFile: .commitlintrc.yml
+          types: |
+            feat
+            fix
+            docs
+            chore
+            refactor
+            style
+            test
+          requireScope: false
+
 
 
 
