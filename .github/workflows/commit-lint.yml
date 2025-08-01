@@ -2,28 +2,27 @@ name: Commit Lint
 
 on:
   pull_request:
-    branches: [main, qa, dev] # Update based on your repo branches
+    types: [opened, synchronize, reopened, edited]
+  push:
+    branches: [main, dev, qa, prod]
 
 jobs:
-  lint-commits:
-    name: Validate PR commit messages
+  commitlint:
+    name: Check Commit Messages
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout PR
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Check Conventional Commits
-        uses: amannn/action-semantic-pull-request@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          types: |
-            feat
-            fix
-            docs
-            chore
-            refactor
-            style
-            test
-          requireScope: false
+          node-version: 18
+
+      - name: Install commitlint
+        run: |
+          npm install --save-dev @commitlint/{config-conventional,cli}
+          echo "module.exports = {extends: ['@commitlint/config-conventional']};" > commitlint.config.js
+
+
