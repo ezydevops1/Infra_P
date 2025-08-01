@@ -28,4 +28,13 @@ jobs:
           elif [[ "${{ github.ref_name }}" == "prod" ]]; then
             echo "Deploying to Production server"
             # ./deploy-prod.sh or npm run deploy-prod
-          fi
+          if [[ "${{ github.ref_name }}" == "dev" ]]; then
+            echo "✅ Deploying to Dev"
+            # Add your dev deploy logic
+          elif [[ "${{ github.ref_name }}" == "qa" ]]; then
+            echo "✅ Deploying to QA"
+            # Add your QA deploy logic
+          elif [[ "${{ github.ref_name }}" == "prod" ]]; then
+            echo "✅ Deploying to Prod"
+            # Add your production deploy logic
+         
