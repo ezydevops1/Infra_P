@@ -18,6 +18,16 @@ jobs:
       - name: Deploy to Environment
         run: |
           echo "Deploying to ${{ github.ref_name }} environment..."
+          # Simulated deploy command
+          if [[ "${{ github.ref_name }}" == "dev" ]]; then
+            echo "Deploying to Development server"
+            # ./deploy-dev.sh or npm run deploy-dev
+          elif [[ "${{ github.ref_name }}" == "qa" ]]; then
+            echo "Deploying to QA server"
+            # ./deploy-qa.sh or npm run deploy-qa
+          elif [[ "${{ github.ref_name }}" == "prod" ]]; then
+            echo "Deploying to Production server"
+            # ./deploy-prod.sh or npm run deploy-prod
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
             echo "✅ Deploying to Dev"
             # Add your dev deploy logic
@@ -27,4 +37,4 @@ jobs:
           elif [[ "${{ github.ref_name }}" == "prod" ]]; then
             echo "✅ Deploying to Prod"
             # Add your production deploy logic
-          fi
+

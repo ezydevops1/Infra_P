@@ -1,0 +1,30 @@
+name: Commit Lint
+
+on:
+  pull_request:
+    branches: [main, qa, dev]  # Update with your actual branches
+
+jobs:
+  lint-commits:
+    name: Validate Commit Messages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Lint commit messages
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+          requireScope: false
+          validateSingleCommit: true
+
+
+
+
+
